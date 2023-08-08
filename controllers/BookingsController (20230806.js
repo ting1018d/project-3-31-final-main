@@ -4,28 +4,28 @@ import User from "../models/User.js";
 export const getBookings = (req, res) => {
    //    console.log("user id", res.locals.user._id);
 
-//   Booking.find({facility : "RA01", userID:res.locals.user._id},
-//                {_id:0,facility:1,bookingDate:1,session:1})
-//    .lean()
-//    .sort({bookingDate: 1, session: 1})
-//    .then(booked_sessions_a => {
-//console.log("booked_sessions_a ---> ", booked_sessions_a);
+   Booking.find({facility : "GF01", userID:res.locals.user._id},
+                {_id:0,facility:1,bookingDate:1,session:1})
+    .lean()
+    .sort({bookingDate: 1, session: 1})
+    .then(booked_sessions_a => {
+console.log("booked_sessions_a ---> ", booked_sessions_a);
 //    booked_sessions_a.forEach(simplify);
 //    function simplify(item, index, arr) {
 //    arr [index] = Number(item.session);
-//} 
+} 
 //    console.log("@@@ simplified booked session Golf",booked_sessions_a);
 //    const booked_obj = {date : bookingDate,
-//                        facility : "RA01",
+//                        facility : "GF01",
 //                        booked_sess : booked_sessions_aa};
 //    console.log("booked obj =>  ", booked_obj );           
-//);
+);
 
        Booking.find({userID: res.locals.user._id})
             .lean()
             .sort({bookingDate: 1, session : 1})
             .then(bookings => {
-//                console.log("??? bookings",bookings);
+                console.log("??? bookings",bookings);
                 bookings.forEach(bookingsFormat)
                 
                 function bookingsFormat (booking, index) {
@@ -35,7 +35,6 @@ export const getBookings = (req, res) => {
                     
                     booking.img_path = facility_img(booking.facility);
                     booking.facility = facility_name(booking.facility);
-                    booking.courseID = booking.courseID;
 //                    console.log("img path", booking.img_path);
 //                    console.log("???^^^-----",booking);
                 }
@@ -52,36 +51,35 @@ export const getBookings = (req, res) => {
     }
 
     let session_arr = [
-        "10:00 - 10:30",
-        "10:30 - 11:00",
-        "11:00 - 11:30",
-        "11:30 - 12:00",
-        "12:00 - 12:30",
-        "12:30 - 13:00",
-        "13:00 - 13:30",
-        "13:30 - 14:00",
-        "14:00 - 14:30",
-        "14:30 - 15:00",
-        "15:00 - 15:30",
-        "15:30 - 16:00",
-        "16:00 - 16:30",
-        "16:30 - 17:00",
-        "17:00 - 17:30",
-        "17:30 - 18:00",
-        "18:00 - 18:30",
-        "18:30 - 19:00",
-        "19:00 - 19:30",
-        "19:30 - 20:00",
-        "20:00 - 20:30",
-        "20:30 - 21:00",
-        "21:00 - 21:30",
-        "21:30 - 22:00",
-
+        "10:00 - 11:00",
+        "11:00 - 12:00",
+        "12:00 - 13:00",
+        "13:00 - 14:00",
+        "14:00 - 15:00",
+        "15:00 - 16:00",
+        "16:00 - 17:00",
+        "17:00 - 18:00",
+        "18:00 - 19:00",
     ];
 
     let fac_arr = [
-    {facCode: "RA01", fac :"Room A", facImgpath: "./img/5.png" },    
-    {facCode: "RB01", fac :"Room B", facImgpath: "./img/4.png" },
+    {facCode: "GF01", fac :"Golf", facImgpath: "./img/5.png" },    
+    {facCode: "RB01", fac :"Rugby", facImgpath: "./img/4.png" },
+    {facCode: "SQ01", fac :"Squash Court 1", facImgpath: "./img/2.png"},
+    {facCode: "SQ02", fac :"Squash Court 2", facImgpath: "./img/2.png"},
+    {facCode: "SQ03", fac :"Squash Court 3", facImgpath: "./img/2.png"},
+    {facCode: "SQ04", fac :"Squash Court 4", facImgpath: "./img/2.png"},
+    {facCode: "TS01", fac :"Tennis Court 1", facImgpath: "./img/1.png"},
+    {facCode: "TS02", fac :"Tennis Court 2", facImgpath: "./img/1.png"},
+    {facCode: "TS03", fac :"Tennis Court 3", facImgpath: "./img/1.png"},   
+    {facCode: "TS04", fac :"Tennis Court 4", facImgpath: "./img/1.png"},
+    {facCode: "TS05", fac :"Tennis Court 5", facImgpath: "./img/1.png"},   
+    {facCode: "TS06", fac :"Tennis Court 6", facImgpath: "./img/1.png"},
+    {facCode: "TS07", fac :"Tennis Court 7", facImgpath: "./img/1.png"},     
+    {facCode: "TT01", fac :"Table Tennis Court 1", facImgpath: "./img/3.png"},
+    {facCode: "TT02", fac :"Table Tennis Court 2", facImgpath: "./img/3.png"},            
+    {facCode: "TT03", fac :"Table Tennis Court 3", facImgpath: "./img/3.png"},
+    {facCode: "TT04", fac :"Table Tennis Court 4", facImgpath: "./img/3.png"},       
     ];
 
     var sessions = [];
@@ -108,8 +106,8 @@ export const getBookings = (req, res) => {
     
     console.log ("<<< postAddBookings >>>");
     console.log("<<<  action :",req.body.action);
-//    console.log("<<<  course :", req.body.course);
-    console.log("<<<  course_ID :",req.body.course_ID);
+    console.log("<<<  course :", req.body.course);
+    console.log("<<<  course_selected :",req.body.course_selected);
 
     if (res.locals.admin) {
         bookingRemarks = "admin booking"
@@ -137,7 +135,7 @@ export const getBookings = (req, res) => {
     let today = new Date();
     let inputBookingDate = new Date (req.body.bookingDate);
     inputBookingDate.setDate(inputBookingDate.getDate());
-    if (inputBookingDate < today) {
+        if (inputBookingDate < today) {
     errors.push({text: "An error in booking Date and Time. Please review."});
     }
     if (errors.length > 0) {
@@ -157,45 +155,16 @@ export const getBookings = (req, res) => {
     console.log(">>>session length : ", req.body.session_selected_a.length);
   */
     //*    
-    console.log(">>>>> req body action : ", req.body.action);
-    console.log(">>>>> session Room A : ", req.body.session_selected_a);
-    console.log(">>>>> session Room B : ", req.body.session_selected_b);
+    console.log(">>>>> session Golf : ", req.body.session_selected_a);
+    console.log(">>>>> session Rugby : ", req.body.session_selected_b);
     
-    console.log (">>>>>req.body.course_ID => ", req.body.course_ID);
-    console.log(">>>>>courseID length =>", req.body.course_ID.length );
-    console.log(">>>>> req.body.sessions:", req.body.sessions);
-    console.log(">>>>> sessions_selected_a :",req.body.sessions_selected_a);
-    console.log(">>>>> sessions_selected_b :",req.body.sessions_selected_b);
-
-    //    if (req.body.course_ID == null || undefined) 
-/*    if (req.body.course_ID.length == 0) 
-    {
-        console.log("courseID error invoked");
-        errors.push({text: "Please input course ID"});
-        res.render("bookings/add",{
-            errors : errors,
-            bookingDate : res.locals.bookingDate,
-            sessions: sessions,
-            course_ID :res.locals.course_ID,
-            sessions_selected_a:res.locals.sessions_selected_a,
-            sessions_selected_b:res.locals.sessions_selected_b
-            ,
-        });
-    };
-*/    
-//        res.render("bookings/add", {
-//            errors : errors,
-//                facility : "RA01",
-//            bookingDate : req.body.bookingDate,
-//        });  
     
-    console.log("++++ req.body.session_selected_a", req.body.session_selected_a);
     if (req.body.session_selected_a !== undefined)
         {for (let q = 0; q < req.body.session_selected_a.length; q++) 
     //* loop through sessions selected and insert booking record for each session
     {
         
-    Booking.findOne ({facility : "RA01",    
+    Booking.findOne ({facility : "GF01",    
         bookingDate : req.body.bookingDate, 
         session : req.body.session_selected_a[q]},function(err, result) {
             if (err) throw err;
@@ -204,7 +173,7 @@ export const getBookings = (req, res) => {
              {errors.push({text: "Session already booked"});
                 res.render("bookings/add", {
                 errors : errors,
-//                facility : "RA01",
+                facility : "GF01",
                 bookingDate : req.body.bookingDate,
                 session_selected : req.body.session_selected_a[q],  
                 });
@@ -212,14 +181,14 @@ export const getBookings = (req, res) => {
             else
                 {
                 const newBooking = {
-                    facility : "RA01",
+                    facility : "GF01",
                     bookingDate : req.body.bookingDate,
                     session : req.body.session_selected_a[q],
                     userID : res.locals.user._id,
                     remarks : bookingRemarks,
                     userEmail : res.locals.user.email,
-                    courseID : req.body.course_ID};
-//                    console.log("$$$$ newBooking", newBooking);
+                    courseID : req.body.course_selected};
+                    console.log("$$$$ newBooking", newBooking);
 
                     new Booking(newBooking).save().then(() => {
                     //* req.flash("success_msg", "Booking Added!");
@@ -229,8 +198,6 @@ export const getBookings = (req, res) => {
             });
         }};
        //* end for loop
-    console.log("++++ req.body.session_selected_b", req.body.session_selected_b);
-
     if (req.body.session_selected_b !== undefined)
         {for (let r = 0; r < req.body.session_selected_b.length; r++) 
        //* loop through sessions selected and insert booking record for each session
@@ -259,8 +226,8 @@ export const getBookings = (req, res) => {
                        userID : res.locals.user._id,
                        remarks : bookingRemarks,
                        userEmail : res.locals.user.email,
-                       courseID : req.body.course_ID,};
-//                       console.log("$$$$ newBooking", newBooking);
+                       courseID : req.body.course_selected,};
+                       console.log("$$$$ newBooking", newBooking);
    
                        new Booking(newBooking).save().then(() => {
                        //* req.flash("success_msg", "Booking Added!");
@@ -273,8 +240,8 @@ export const getBookings = (req, res) => {
 
           User.findOne({ email: res.locals.user.email})
           .then(user => {
-//              console.log(">>>user ==>", user);
-//              console.log(">>> conf seq ==> ", user.conf_seq_num);
+              console.log(">>>user ==>", user);
+              console.log(">>> conf seq ==> ", user.conf_seq_num);
               if (user.conf_seq_num == undefined)
                 {user.conf_seq_num = 1}
               else
@@ -296,46 +263,44 @@ export const getBookings = (req, res) => {
     //* Add ***NEW        
     } 
     else 
-    //* not "Addbooking" => "Checksessions"=> find available slots and build table 
+    //* not "Addbooking" => find available slots and build table 
         {   
-console.log('+++ req.body.action ==>  ', req.body.action);
-console.log('+++ req.body.booingDate ==> ', req.body.bookingDate);
-        Booking.find({facility : "RA01",    
+
+        Booking.find({facility : "GF01",    
             bookingDate : req.body.bookingDate, 
             },{_id:0,session:1})
         .lean()
         .sort({bookingDate: 1, session: 1})
         .then(booked_sessions_a => {
-            console.log("+++booked_sessions_a before=>", booked_sessions_a);
+            console.log("booked_sessions_a before=>", booked_sessions_a);
             booked_sessions_a.forEach(simplify);
             function simplify(item, index, arr) {
             arr [index] = Number(item.session);
-            }
-            console.log("+++ simplified booked session Room A",booked_sessions_a);
+            } 
+            console.log("@@@ simplified booked session Golf",booked_sessions_a);
             booked_sessions_aa = [];
             booked_sessions_aa.push.apply(booked_sessions_aa, booked_sessions_a);
-            console.log("+++ booked sessions aa => ",booked_sessions_aa); 
-//booked_obj is for future use when json is to be used
-//            const booked_obj = {date : req.body.bookingDate,
-//                                facility : "RA01",
-//                                booked_sess : booked_sessions_aa};
-//            console.log("booked obj =>  ", booked_obj );           
+            console.log("@@@ booked sessions aa => ",booked_sessions_aa); 
+            const booked_obj = {date : req.body.bookingDate,
+                                facility : "GF01",
+                                booked_sess : booked_sessions_aa};
+            console.log("booked obj =>  ", booked_obj );           
             });
 
-        Booking.find({facility : "RB01",    
+            Booking.find({facility : "RB01",    
             bookingDate : req.body.bookingDate, 
             },{_id:0,session:1})
-        .lean()
-        .sort({bookingDate: 1, session: 1})
-        .then(booked_sessions_b => {
+            .lean()
+            .sort({bookingDate: 1, session: 1})
+            .then(booked_sessions_b => {
             booked_sessions_b.forEach(simplify);
             function simplify(item, index, arr) {
             arr [index] = Number(item.session);
             } 
-//            console.log("@@@ simplified booked session Room B ",booked_sessions_b);
+            console.log("@@@ simplified booked session Rugby ",booked_sessions_b);
             booked_sessions_bb = [];
             booked_sessions_bb.push.apply(booked_sessions_bb, booked_sessions_b);
-            console.log("+++ booked sessions bb => ",booked_sessions_bb);
+            console.log("@@@ booked sessions bb => ",booked_sessions_bb);
             });
 
             let booked_status_a = "";
@@ -344,11 +309,9 @@ console.log('+++ req.body.booingDate ==> ', req.body.bookingDate);
             let booked_status_b = "";
             let buttonDisabled_b = "";
             let buttonChecked_b = "";
-console.log("++++++++ booked sessions aa", booked_sessions_aa);
-console.log("++++++++ booked sessions bb", booked_sessions_bb);
 
             sessions = [];
-            for (let i = 1; i <= 24; i++) 
+            for (let i = 1; i < 10; i++) 
             { 
                 if (booked_sessions_aa.includes(i))
                     {booked_status_a = "booked";
@@ -368,7 +331,7 @@ console.log("++++++++ booked sessions bb", booked_sessions_bb);
                     buttonDisabled_b = "";
                     buttonChecked_b = "";};
 
-//                let facName = facility_name("RA01");
+                let facName = facility_name("GF01");
                 sessions[i] = {
             //*    facility: req.body.facility,
             //*    fac_name: facName, 
@@ -386,22 +349,24 @@ console.log("++++++++ booked sessions bb", booked_sessions_bb);
           
             };
             console.log("req.body.action ---> ", req.body.action);
-//            console.log("req.body.course ---> ", req.body.course);
-            console.log("req.body.course_ID ---> ", req.body.course_ID);
+            console.log("req.body.course ---> ", req.body.course);
+            console.log("req.body.course_selected ---> ", req.body.course_selected);
             
-            res.locals.course_ID = req.body.course_ID;    
+            if (req.body.action = "checkSessions")
+                {res.locals.course_selected = req.body.course;}
+            else 
+                {res.locals.course_selected = req.body.course_selected};    
             res.locals.bookingDate = req.body.bookingDate;
-            console.log("res.locals.course_ID ---> ", res.locals.course_ID);
+            console.log("res.locals.course_selected ---> ", res.locals.course_selected);
             res.locals.sessions_selected_a = req.body.sessions_selected_a;
             res.locals.sessions_selected_b = req.body.sessions_selected_b;
-            res.locals.sessions = req.body.sessions;
             res.render("bookings/add",{
                 errors : errors,
-//                facility : req.body.facility,
+                facility : req.body.facility,
                 bookingDate : res.locals.bookingDate,
-//                session : req.body.session,
+                session : req.body.session,
                 sessions: sessions,
-                course_ID :res.locals.course_ID,
+                course_selected :res.locals.course_selected,
                 sessions_selected_a:res.locals.sessions_selected_a,
                 sessions_selected_b:res.locals.sessions_selected_b,
 
@@ -439,7 +404,7 @@ export const putEditBookings= (req, res) => {
     save_booking_id.push(req.params.id);
     console.log(save_booking_id); 
 
-/*    if (!req.body.facility) {
+    if (!req.body.facility) {
         errors.push({text: "Please add a facility"});
     }
     if (!req.body.bookingDate) {
@@ -448,7 +413,6 @@ export const putEditBookings= (req, res) => {
     if (!req.body.session) {
         errors.push({text: "Please add a session"});
     }
-*/
     if (errors.length > 0) {
         res.render("bookings/edit", {
             errors : errors,
@@ -463,11 +427,10 @@ export const putEditBookings= (req, res) => {
     console.log("booking date ", req.body.bookingDate);
     console.log("session ", req.body.session);
 
-    let bookingRemarks = '';
+        let bookingRemarks = '';
     if (res.locals.admin) {
         bookingRemarks = "Admin booking"
-    } 
-    else {
+    } else {
         bookingRemarks = "Client booking";
     };
 
@@ -477,7 +440,7 @@ export const putEditBookings= (req, res) => {
         session : req.body.session},function(err, result) {
             if (err) throw err;
             console.log (result);
-/*            if (result !== null)
+            if (result !== null)
              {    
                 errors.push({text: "Session already booked"});
                 res.render("bookings/edit", {
@@ -487,18 +450,17 @@ export const putEditBookings= (req, res) => {
                 session : req.body.session,  
                 });
              }
-*/
-            
-                console.log("saved_booking_id ",save_booking_id);
-                Booking.findOne({ _id: save_booking_id})
+            else
+                {
+                    console.log("saved_booking_id ",save_booking_id);
+                    Booking.findOne({ _id: save_booking_id})
                     .then(booking => {
                         console.log(booking);
-//                        booking.facility = req.body.facility;
-//                        booking.bookingDate = req.body.bookingDate;
-//                        booking.session = req.body.session;
-                        booking.courseID = req.body.courseID
-                        booking.remarks = bookingRemarks;
-//                        booking.userEmail = res.locals.user.email;  
+                        booking.facility = req.body.facility;
+                        booking.bookingDate = req.body.bookingDate;
+                        booking.session = req.body.session;
+                        booking.remarks = "Client booking";
+                        booking.userEmail = res.locals.user.email;  
                         booking.save().
                         then(()=> {
                         req.flash("success_msg", "Booking updated !");
@@ -506,7 +468,7 @@ export const putEditBookings= (req, res) => {
                         });
 
                     });
-                ;
+                };
         });
     }
 }
@@ -548,7 +510,7 @@ do
 { 
     console.log(date1, " - ", date2);
     i =  0;
-    for (let i = 1; i <= 24; i++) {
+    for (let i = 1; i <= 9; i++) {
         console.log(req.body.facility, " ", i, " ", date1);
         const newBooking = {
             facility : req.body.facility,
@@ -558,12 +520,12 @@ do
             remarks : "Maintenance",
             userEmail : res.locals.user.email,};
             new Booking(newBooking).save().then(() => {
+            
             });
     }       
     date1.setDate(date1.getDate()+1);
 }
-while (date1 <= date2);
-// while (date1 <= date2 & i < 24);
+while (date1 <= date2 & i < 10);
 //    console.log(req.body.maintStart);
 //    console.log(req.body.maintStart.setDate(req.body.maintStart.getDate() + 1));
 //    console.log(req.body.maintEnd);

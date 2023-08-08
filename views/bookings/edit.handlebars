@@ -35,57 +35,60 @@
                     <form action="/bookings/edit/{{booking._id}}?_method=PUT" method="POST">
                     <input type="hidden" name="_method" value="PUT"/>
                     <div class="form-group">
-                        <label for="facility" class="badge badge-secondary text-wrap;" style="width: 12rem;">Booked Sports : {{booking.facility_nm}}</label>
-                            <select
+                        <label for="facility" class="badge badge-secondary text-wrap;" style="width: 12rem;">Facility : {{booking.facility_nm}}</label>
+{{!--                            <select
                                 type="text" 
                                 class="form-control" 
                                 name="facility" 
                                 value="{{booking.facility}}"
                             />
                                 <option selected>Select Sport</option>
-                                <option value="GF01">Golf</option>
-                                <option value="RB01">Rugby</option>
-                                <option value="SQ01">Squash Court 1</option>
-                                <option value="SQ02">Squash Court 2</option>
-                                <option value="SQ03">Squash Court 3</option>
-                                <option value="SQ04">Squash Court 4</option>
-                                <option value="TS01">Tennis Court 1</option>
-                                <option value="TS02">Tennis Court 2</option>
-                                <option value="TS03">Tennis Court 3</option>
-                                <option value="TS04">Tennis Court 4</option>
-                                <option value="TS05">Tennis Court 5</option>
-                                <option value="TS06">Tennis Court 6</option>
-                                <option value="TS07">Tennis Court 7</option>
-                                <option value="TS01">Table Tennis Court 1</option>
-                                <option value="TS02">Table Tennis Court 2</option>
-                                <option value="TS03">Table Tennis Court 3</option>
-                                <option value="TS04">Table Tennis Court 4</option>
+                                <option value="RA01">Room A</option>
+                                <option value="RB01">Room B</option>
                             </select> 
+--}}
                     </div>
 
                     <div class="form-group">
                         <label for="session" class="badge badge-secondary text-wrap;" style="width: 12rem;">Bookded Time : {{{booking.session_desc}}}</label>
-                            <select 
+{{!--                            <select 
                                 id="" 
                                 class="form-control"
                                 name = "session"
                                 value="{{booking.session}}"
                             />
                             <option name="session" id="session" selected>Select Time</option>
-                            <option value="1">10:00-11:00</option>
-                            <option value="2">11:00-12:00</option>
-                            <option value="3">12:00-13:00</option>
-                            <option value="4">13:00-14:00</option>
-                            <option value="5">14:00-15:00</option>
-                            <option value="6">15:00-16:00</option>
-                            <option value="7">16:00-17:00</option>
-                            <option value="8">17:00-18:00</option>
-                            <option value="9">18:00-19:00</option>
+                            <option value="1">10:00-10:30</option>
+                            <option value="2">10:30-11:00</option>
+                            <option value="3">11:00-11:30</option>
+                            <option value="4">11:30-12:00</option>
+                            <option value="5">12:00-12:30</option>
+                            <option value="6">12:30-13:00</option>
+                            <option value="7">13:00-13:30</option>
+                            <option value="8">13:30-14:00</option>
+                            <option value="9">14:00-14:30</option>
+                            <option value="10">14:30-15:00</option>
+                            <option value="11">15:00-15:30</option>
+                            <option value="12">15:30-16:00</option>
+                            <option value="13">16:00-16:30</option>
+                            <option value="14">16:30-17:00</option>
+                            <option value="15">17:00-17:30</option>
+                            <option value="16">17:30-18:00</option>
+                            <option value="17">18:00-18:30</option>
+                            <option value="18">18:30-19:00</option>
+                            <option value="19">19:00-19:30</option>
+                            <option value="20">19:30-20:00</option>
+                            <option value="21">20:00-20:30</option>
+                            <option value="22">20:30-21:00</option>
+                            <option value="23">21:00-21:30</option>
+                            <option value="24">21:30-22:00</option>
                             </select>
+--}}
                     </div>
 
                     <div class="form-group">
                         <label for="bookingDate" class="badge badge-secondary text-wrap;" style="width: 12rem;">Booked Date : <br>{{booking.bookingDate}}</label>
+{{!--
                         <input 
                             class="form-control" 
                             id = "bookingDate"  
@@ -95,7 +98,22 @@
                             class = "textbox-n"
                             onfocus = "(this.type = 'date')"  
                             value="{{booking.bookingDate}}"style="width: 100%">
+--}}
                     </div>
+
+                    <div class="form-group">
+                        <label for="courseID" class="badge badge-secondary text-wrap;" style="width: 12rem;">Course ID : <br>{{booking.courseID}}</label>
+                        <input 
+                            class="form-control" 
+                            id = "courseID"  
+                            type = "text"
+                            name="courseID"
+                            placeholder = "Course ID" 
+                            class = "textbox-n"
+{{!--                            onfocus = "(this.type = 'date')"  --}}
+                            value="{{booking.courseID}}"style="width: 100%">
+                    </div>
+
                     <div class="container py-0 my-0">
                         <div class="row">
                             <div class="col-md-12">
