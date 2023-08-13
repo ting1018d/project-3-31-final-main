@@ -298,102 +298,30 @@ export const getBookings = (req, res) => {
     else 
     //* not "Addbooking" => "Checksessions"=> find available slots and build table 
         {   
-    console.log('+++ req.body.action ==>  ', req.body.action);
-    console.log('+++ req.body.bookingDate ==> ', req.body.bookingDate);
-    /*
-    this combined booking db search of ra01 and rb01 is done to replace separate search of ra01 and rb01
-    render is placed within the Booking.find.
-    The original code has problem with variable scope and caused the problem of not refreshing screen until search button is hit twice.
-    */
-        Booking.find({    
-        bookingDate : req.body.bookingDate, 
-        },{_id:0,facility:1,session:1})
-        .lean()
-        .sort({bookingDate: 1, facility:1, session: 1})
-        .then(booked_sessions_a => {
-        console.log("+++booked_sessions_a before=>", booked_sessions_a);
-        const ra01 = booked_sessions_a.filter((booked_session) => booked_session.facility == "RA01");
-        console.log("+++ booked sessions ra01 => ",ra01); 
-        const rb01 = booked_sessions_a.filter((booked_session) => booked_session.facility == "RB01");
-        console.log("+++ booked sessions rb01 => ",rb01); 
-        ra01.forEach(simplify);
-        console.log("ra01 ==> ", ra01);
-        rb01.forEach(simplify);
-        console.log("rb01 ==> ", rb01);
+console.log('+++ req.body.action ==>  ', req.body.action);
+console.log('+++ req.body.bookingDate ==> ', req.body.bookingDate);
+    Booking.find({    
+    bookingDate : req.body.bookingDate, 
+    },{_id:0,facility:1,session:1})
+    .lean()
+    .sort({bookingDate: 1, facility:1, session: 1})
+    .then(booked_sessions_a => {
+    console.log("+++booked_sessions_a before=>", booked_sessions_a);
+    const ra01 = booked_sessions_a.filter((booked_session) => booked_session.facility == "RA01");
+    console.log("+++ booked sessions ra01 => ",ra01); 
+    const rb01 = booked_sessions_a.filter((booked_session) => booked_session.facility == "RB01");
+    console.log("+++ booked sessions rb01 => ",rb01); 
+    ra01.forEach(simplify);
+    console.log("ra01 ==> ", ra01);
+    rb01.forEach(simplify);
+    console.log("rb01 ==> ", rb01);
     
-        function simplify(item, index, arr) {
-        arr [index] = Number(item.session);
-        }
-
-        let booked_status_a = "";
-        let buttonDisabled_a = "";
-        let buttonChecked_a = "";
-        let booked_status_b = "";
-        let buttonDisabled_b = "";
-        let buttonChecked_b = "";
-        sessions = [];
-        for (let i = 1; i <= 24; i++) 
-        { 
-            if (ra01.includes(i))
-                {booked_status_a = "booked";
-                buttonDisabled_a = "disabled";
-                buttonChecked_a = "checked";}
-            else{
-                booked_status_a = "available";
-                buttonDisabled_a = "";
-                buttonChecked_a = "";};
-
-            if (rb01.includes(i))
-                {booked_status_b = "booked";
-                buttonDisabled_b = "disabled";
-                buttonChecked_b = "checked";}
-            else{
-                booked_status_b = "available";
-                buttonDisabled_b = "";
-                buttonChecked_b = "";};
-
-//                let facName = facility_name("RA01");
-        sessions[i] = {
-    //*    facility: req.body.facility,
-    //*    fac_name: facName, 
-        bookingDate:req.body.bookingDate, 
-        session_a: i,
-        session_desc : session_arr[i-1],
-        status_a : booked_status_a,
-        disabled_a : buttonDisabled_a,
-        checked_a : buttonChecked_a,
-        session_b : i,
-        status_b : booked_status_b,
-        disabled_b : buttonDisabled_b,
-        checked_b : buttonChecked_b,
-        };
-  
-        };
-        console.log("req.body.action ---> ", req.body.action);
-//            console.log("req.body.course ---> ", req.body.course);
-        console.log("req.body.course_ID ---> ", req.body.course_ID);            
-        res.locals.course_ID = req.body.course_ID;    
-        res.locals.bookingDate = req.body.bookingDate;
-        console.log("res.locals.course_ID ---> ", res.locals.course_ID);
-        res.locals.sessions_selected_a = req.body.sessions_selected_a;
-        res.locals.sessions_selected_b = req.body.sessions_selected_b;
-        res.locals.sessions = req.body.sessions;
-        res.render("bookings/add",{
-            errors : errors,
-//                facility : req.body.facility,
-            bookingDate : res.locals.bookingDate,
-//                session : req.body.session,
-            sessions: sessions,
-            course_ID :res.locals.course_ID,
-            sessions_selected_a:res.locals.sessions_selected_a,
-            sessions_selected_b:res.locals.sessions_selected_b,
-
+    function simplify(item, index, arr) {
+    arr [index] = Number(item.session);
     }
-    );
-
 
     });
-    /*    Booking.find({facility : "RA01",    
+        Booking.find({facility : "RA01",    
             bookingDate : req.body.bookingDate, 
             },{_id:0,session:1})
         .lean()
@@ -430,7 +358,77 @@ export const getBookings = (req, res) => {
             booked_sessions_bb.push.apply(booked_sessions_bb, booked_sessions_b);
             console.log("+++ booked sessions bb => ",booked_sessions_bb);
             });
-*/
+
+            let booked_status_a = "";
+            let buttonDisabled_a = "";
+            let buttonChecked_a = "";
+            let booked_status_b = "";
+            let buttonDisabled_b = "";
+            let buttonChecked_b = "";
+console.log("++++++++ booked sessions aa", booked_sessions_aa);
+console.log("++++++++ booked sessions bb", booked_sessions_bb);
+
+            sessions = [];
+            for (let i = 1; i <= 24; i++) 
+            { 
+                if (booked_sessions_aa.includes(i))
+                    {booked_status_a = "booked";
+                    buttonDisabled_a = "disabled";
+                    buttonChecked_a = "checked";}
+                else{
+                    booked_status_a = "available";
+                    buttonDisabled_a = "";
+                    buttonChecked_a = "";};
+
+                if (booked_sessions_bb.includes(i))
+                    {booked_status_b = "booked";
+                    buttonDisabled_b = "disabled";
+                    buttonChecked_b = "checked";}
+                else{
+                    booked_status_b = "available";
+                    buttonDisabled_b = "";
+                    buttonChecked_b = "";};
+
+//                let facName = facility_name("RA01");
+                sessions[i] = {
+            //*    facility: req.body.facility,
+            //*    fac_name: facName, 
+                bookingDate:req.body.bookingDate, 
+                session_a: i,
+                session_desc : session_arr[i-1],
+                status_a : booked_status_a,
+                disabled_a : buttonDisabled_a,
+                checked_a : buttonChecked_a,
+                session_b : i,
+                status_b : booked_status_b,
+                disabled_b : buttonDisabled_b,
+                checked_b : buttonChecked_b,
+            };
+          
+            };
+            console.log("req.body.action ---> ", req.body.action);
+//            console.log("req.body.course ---> ", req.body.course);
+            console.log("req.body.course_ID ---> ", req.body.course_ID);
+            
+            res.locals.course_ID = req.body.course_ID;    
+            res.locals.bookingDate = req.body.bookingDate;
+            console.log("res.locals.course_ID ---> ", res.locals.course_ID);
+            res.locals.sessions_selected_a = req.body.sessions_selected_a;
+            res.locals.sessions_selected_b = req.body.sessions_selected_b;
+            res.locals.sessions = req.body.sessions;
+            res.render("bookings/add",{
+                errors : errors,
+//                facility : req.body.facility,
+                bookingDate : res.locals.bookingDate,
+//                session : req.body.session,
+                sessions: sessions,
+                course_ID :res.locals.course_ID,
+                sessions_selected_a:res.locals.sessions_selected_a,
+                sessions_selected_b:res.locals.sessions_selected_b,
+
+            }
+            );
+            
             };
             }
 //*    
